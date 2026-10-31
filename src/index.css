@@ -42,6 +42,8 @@ body {
   font-family: 'JetBrains Mono', Menlo, monospace;
 }
 
+/* Component classes live in the components layer so Tailwind utilities (pl-9, px-3, ...) can override them. */
+@layer components {
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -131,6 +133,7 @@ body {
 
 .btn-danger:hover:not(:disabled) {
   background: rgba(186, 43, 76, 0.06);
+}
 }
 
 .tabular {
