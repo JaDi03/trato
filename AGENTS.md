@@ -1,6 +1,8 @@
 # Freelance Escrow
 
-Deployed `FreelanceEscrow` on Arc Testnet: `0xa3ad8bc91654afdac1e97d59fcb7c7c4e58d9713` (USDC `0x3600000000000000000000000000000000000000`). Address, chain, RPC and USDC come from `VITE_*` env values (`src/lib/env.ts`). Contract source `contracts/FreelanceEscrow.sol`, tests `contracts/test/FreelanceEscrow*.t.sol`. Decisions: soft deadlines, disputes unlock the next milestone, 7-day post-rejection refund, 14-day unstarted refund, 30-day arbiter timeout 50/50, partial settlement is a client proposal the freelancer must accept (proposePartial/acceptPartial), freelancer can decline before milestone 1 starts.
+MAINNET: `.env` points at Arc mainnet (chain 5042, `https://rpc.mainnet.arc.io`, USDC `0x3600000000000000000000000000000000000000`). The user deployed `FreelanceEscrow` to Arc mainnet themselves at `0x9289Afd63C8802F5B6633a5821abC1B282F05D87` (tx `0x728aa0a1152ebcacf0ed14d9bd762e769440938a2b461fa198609100b7dbe51e`) and `VITE_ESCROW_ADDRESS` is set to it. A read-only check showed `usdc()` returns the Arc USDC address and `jobCount()` is 0. Arc Studio does not deploy to or transact on mainnet. Testnet values are kept as a comment at the end of `.env`.
+
+Deployed `FreelanceEscrow` on Arc Testnet (test only): `0xa3ad8bc91654afdac1e97d59fcb7c7c4e58d9713` (USDC `0x3600000000000000000000000000000000000000`). Address, chain, RPC and USDC come from `VITE_*` env values (`src/lib/env.ts`). Contract source `contracts/FreelanceEscrow.sol`, tests `contracts/test/FreelanceEscrow*.t.sol`. Decisions: soft deadlines, disputes unlock the next milestone, 7-day post-rejection refund, 14-day unstarted refund, 30-day arbiter timeout 50/50, partial settlement is a client proposal the freelancer must accept (proposePartial/acceptPartial), freelancer can decline before milestone 1 starts.
 
 # [App Name]
 

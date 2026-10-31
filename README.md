@@ -42,6 +42,29 @@ All values are public. Create a `.env` file with:
 - `VITE_RPC_URL`: network RPC endpoint. Defaults to the network's public endpoint.
 - `VITE_USDC_ADDRESS`: USDC token address. Defaults to the network's USDC.
 
-Current Arc Testnet deployment: `VITE_ESCROW_ADDRESS=0xa3ad8bc91654afdac1e97d59fcb7c7c4e58d9713`.
+`.env.example` holds the Arc mainnet values (chain 5042). The repo's `.env` points at Arc mainnet.
+
+Arc mainnet deployment (chain 5042): `0x9289Afd63C8802F5B6633a5821abC1B282F05D87`, deployment transaction `0x728aa0a1152ebcacf0ed14d9bd762e769440938a2b461fa198609100b7dbe51e`. View it on https://explorer.arc.io/address/0x9289Afd63C8802F5B6633a5821abC1B282F05D87.
+
+Arc Testnet test deployment (chain 5042002, for reference only): `0xa3ad8bc91654afdac1e97d59fcb7c7c4e58d9713`.
 
 To point the app at another network, change these values and deploy the contract there with that network's USDC address as its constructor argument.
+
+## Deploying to Arc mainnet
+
+Mainnet moves real USDC and cannot be undone. Get an independent professional audit first, and deploy from your own wallet.
+
+1. Fund your deployer wallet with real USDC on Arc mainnet. Gas on Arc is paid in USDC.
+2. Store the deployer key in an encrypted Foundry keystore (once): `cast wallet import arc-deployer --interactive`.
+3. Deploy, passing Arc mainnet USDC as the constructor argument:
+
+   ```bash
+   forge create contracts/FreelanceEscrow.sol:FreelanceEscrow \
+     --rpc-url https://rpc.mainnet.arc.io \
+     --account arc-deployer \
+     --broadcast \
+     --constructor-args 0x3600000000000000000000000000000000000000
+   ```
+
+4. Confirm the contract points at USDC: `cast call <DEPLOYED_ADDRESS> "usdc()(address)" --rpc-url https://rpc.mainnet.arc.io`. It must print `0x3600000000000000000000000000000000000000`.
+5. Check the address on https://explorer.arc.io, then set `VITE_ESCROW_ADDRESS=<DEPLOYED_ADDRESS>` in `.env` (and in your hosting provider's environment settings) and restart or rebuild the app.
