@@ -1,70 +1,66 @@
-# Freelance Escrow
+# Trato — Freelance Milestone Escrow on Arc
 
-A freelance escrow app paid in USDC. A client funds a whole job up front, the money is held in escrow, and it is released milestone by milestone as work is approved. Freelancers, the people who get paid, and a neutral arbiter each see only the actions that apply to them.
+A decentralized freelance escrow platform paid in native USDC on Arc. Clients fund milestone-based contracts up front, funds are held securely in the escrow smart contract, and funds are released milestone by milestone as work is approved.
 
-Built with [Arc Studio](https://studio.arc.io)
+- **Live Application:** [https://trato-rho.vercel.app/](https://trato-rho.vercel.app/)
+- **Built with:** [Arc Studio](https://studio.arc.io)
+- **Verified Mainnet Contract:** [`0x9289Afd63C8802F5B6633a5821abC1B282F05D87`](https://explorer.arc.io/address/0x9289Afd63C8802F5B6633a5821abC1B282F05D87)
+
+## Arc Mainnet Live Verification & USDC Proof of Movement
+
+This project is deployed and verified on **Arc Mainnet (Chain ID 5042)** with real USDC moving through the smart contract and live application.
+
+### End-to-End Lifecycle Proof (Job #1: $1.00 USDC)
+
+| Action | Caller | Description | Transaction Explorer Link |
+| :--- | :--- | :--- | :--- |
+| **Contract Deployment** | Deployer | Deploy `FreelanceEscrow` with native USDC | [View Tx](https://explorer.arc.io/tx/0x728aa0a1152ebcacf0ed14d9bd762e769440938a2b461fa198609100b7dbe51e) |
+| **Create & Fund Job** | Client (`0xe16E...`) | Deposit $1.00 USDC into escrow (2 milestones) | [View Tx](https://explorer.arc.io/tx/0xd9f610aeb82ff2cfb2ac0eaa559cf1c4514507e4f5b4db5a16b7df35cedbb823) |
+| **Start Milestone 1** | Freelancer (`0x2B16...`) | Accept job terms & start delivery clock | [View Tx](https://explorer.arc.io/tx/0xc499e06a2743b78d3b0780cd0ad1ef071c99f06c48549cc465c54c843f39a6b3) |
+| **Deliver Milestone 1** | Freelancer (`0x2B16...`) | Mark work delivered for client review | [View Tx](https://explorer.arc.io/tx/0xcf513773e746ff290e3350588f040160a0b3c306b691b1db852be87d2e6945a9) |
+| **Approve & Split M1** | Client (`0xe16E...`) | Approve $0.60 USDC (70% Freelancer, 30% Collaborator) | [View Tx](https://explorer.arc.io/tx/0xb0735eae53f1fbec62479872e65dc1df047a036fd039f941a4e3d552995cf5d8) |
+| **Start Milestone 2** | Freelancer (`0x2B16...`) | Unlock & start second milestone | [View Tx](https://explorer.arc.io/tx/0x8861242a2615088adc7fdd65950fe7ab3513f0260b75cb0a29ddd9aa251bd2e9) |
+| **Deliver Milestone 2** | Freelancer (`0x2B16...`) | Mark second milestone delivered | [View Tx](https://explorer.arc.io/tx/0x3e9e38f217216b15968fd18378d8808355bdfdc871203e5eeb94701b2a8b5584) |
+| **Approve & Complete M2**| Client (`0xe16E...`) | Approve $0.40 USDC & mark job finished | [View Tx](https://explorer.arc.io/tx/0x2827729e230f609540cf2ef31a988a286ba3f6a0da69ff234049f977b568281b) |
+| **Withdraw (Freelancer)** | Freelancer (`0x2B16...`) | Claim total earnings ($0.82 USDC) | [View Tx](https://explorer.arc.io/tx/0xc6675d4a85957e6682bbacdc52b2bcdd3d8f21d302ecd6f65216685491ffcddc) |
+| **Withdraw (Collaborator)**| Collaborator (`0x281A...`)| Claim team split earnings ($0.18 USDC) | [View Tx](https://explorer.arc.io/tx/0x19d1a4b198062bf9e67feb19d3aed5d1c7951916650cbff9a704ac410a5172ad) |
 
 ## What you can do
 
-- Start a job with several milestones, set each milestone's share, delivery time, review time and number of allowed changes.
-- Split each milestone's payment between one or more people.
-- Approve work, ask for changes, reject a delivery, or open a dispute.
-- Offer to pay for part of a delivered milestone and get the rest back. The freelancer accepts or declines, and nothing is paid until they accept.
-- Get the money back for a milestone when a deadline is missed or a rejected delivery goes unanswered.
-- Let a freelancer decline a job before starting the first milestone.
-- Let an arbiter decide how a disputed milestone is split. Other milestones keep going.
-- Withdraw your own earnings or refunds at any time.
+- **Sequential Milestones:** Start a job with up to 20 milestones, set each milestone's share, delivery duration, review period, and allowed revisions.
+- **Multi-party Splits:** Split each milestone's payment between one or more team members or subcontractors.
+- **Deliver & Review:** Approve work, request revisions, reject a delivery, or open a dispute.
+- **Bilateral Partial Settlements:** Offer to pay for part of a delivered milestone and get the rest refunded without requiring an arbiter; money only moves when accepted by the freelancer.
+- **Arbiter Dispute Resolution:** If an impasse occurs, an independent neutral arbiter decides how the disputed milestone is split. Remaining milestones proceed sequentially.
+- **Missed Deadline Protection:** Full milestone refund options if work is late or unstarted after the grace window.
+- **Pull Payments:** Isolated withdrawals so one blocked account cannot stop anyone else from claiming their earnings.
 
 ## Tech stack
 
-- React, Vite, TypeScript, Tailwind CSS
-- wagmi, viem, ConnectKit
-- Solidity 0.8.28 with Foundry
+- **Frontend:** React 18, Vite, TypeScript, Tailwind CSS
+- **Web3 Integration:** wagmi, viem, ConnectKit
+- **Smart Contracts:** Solidity 0.8.28 with Foundry (222 unit & invariant tests passing)
+- **Deployment:** Vercel (Frontend) & Arc Mainnet (Contracts)
 
 ## Development
 
-Prerequisites: [Bun](https://bun.sh) and [Foundry](https://book.getfoundry.sh).
+Prerequisites: [Bun](https://bun.sh) (or Node.js) and [Foundry](https://book.getfoundry.sh).
 
 ```bash
-bun install
-bun run dev            # start the app
-bun run check          # lint and typecheck
-bun run contracts:build
-bun run contracts:test
+npm install
+npm run dev            # start the app
+npm run check          # lint and typecheck
+npm run contracts:build
+npm run contracts:test
 ```
 
 ### Environment variables
 
 All values are public. Create a `.env` file with:
 
-- `VITE_ESCROW_ADDRESS`: address of the deployed escrow contract (required).
-- `VITE_CHAIN_ID`: network to use. Defaults to Arc Testnet (5042002).
-- `VITE_RPC_URL`: network RPC endpoint. Defaults to the network's public endpoint.
-- `VITE_USDC_ADDRESS`: USDC token address. Defaults to the network's USDC.
-
-`.env.example` holds the Arc mainnet values (chain 5042). The repo's `.env` points at Arc mainnet.
-
-Arc mainnet deployment (chain 5042): `0x9289Afd63C8802F5B6633a5821abC1B282F05D87`, deployment transaction `0x728aa0a1152ebcacf0ed14d9bd762e769440938a2b461fa198609100b7dbe51e`. View it on https://explorer.arc.io/address/0x9289Afd63C8802F5B6633a5821abC1B282F05D87.
+- `VITE_ESCROW_ADDRESS`: address of the deployed escrow contract (`0x9289Afd63C8802F5B6633a5821abC1B282F05D87`).
+- `VITE_CHAIN_ID`: network ID (`5042` for Arc Mainnet).
+- `VITE_RPC_URL`: network RPC endpoint (`https://rpc.mainnet.arc.io`).
+- `VITE_USDC_ADDRESS`: USDC token address (`0x3600000000000000000000000000000000000000`).
 
 Arc Testnet test deployment (chain 5042002, for reference only): `0xa3ad8bc91654afdac1e97d59fcb7c7c4e58d9713`.
-
-To point the app at another network, change these values and deploy the contract there with that network's USDC address as its constructor argument.
-
-## Deploying to Arc mainnet
-
-Mainnet moves real USDC and cannot be undone. Get an independent professional audit first, and deploy from your own wallet.
-
-1. Fund your deployer wallet with real USDC on Arc mainnet. Gas on Arc is paid in USDC.
-2. Store the deployer key in an encrypted Foundry keystore (once): `cast wallet import arc-deployer --interactive`.
-3. Deploy, passing Arc mainnet USDC as the constructor argument:
-
-   ```bash
-   forge create contracts/FreelanceEscrow.sol:FreelanceEscrow \
-     --rpc-url https://rpc.mainnet.arc.io \
-     --account arc-deployer \
-     --broadcast \
-     --constructor-args 0x3600000000000000000000000000000000000000
-   ```
-
-4. Confirm the contract points at USDC: `cast call <DEPLOYED_ADDRESS> "usdc()(address)" --rpc-url https://rpc.mainnet.arc.io`. It must print `0x3600000000000000000000000000000000000000`.
-5. Check the address on https://explorer.arc.io, then set `VITE_ESCROW_ADDRESS=<DEPLOYED_ADDRESS>` in `.env` (and in your hosting provider's environment settings) and restart or rebuild the app.
