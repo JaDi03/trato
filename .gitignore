@@ -1,0 +1,23 @@
+# Dependencies and build output
+node_modules/
+dist/
+.vercel/
+
+# Environment values and secrets (keep the example file)
+.env
+.env.*
+!.env.example
+.circle/
+recovery_file*
+
+# Foundry build output and caches
+contracts/out/
+contracts/cache/
+/cache/
+
+# Local debug captures and logs
+traces.jsonl
+console.jsonl
+*.log
+
+.DS_Store
